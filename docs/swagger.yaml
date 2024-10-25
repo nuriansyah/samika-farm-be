@@ -1,0 +1,60 @@
+definitions:
+  dto.CreateUserRequest:
+    properties:
+      password:
+        type: string
+      roleId:
+        type: integer
+      username:
+        type: string
+    type: object
+  response.Base:
+    properties:
+      data: {}
+      error:
+        type: string
+      message:
+        type: string
+      metadata: {}
+    type: object
+info:
+  contact: {}
+paths:
+  /v1/users/register:
+    post:
+      description: This endpoint creates a new User.
+      parameters:
+      - description: The User to be created.
+        in: body
+        name: User
+        required: true
+        schema:
+          $ref: '#/definitions/dto.CreateUserRequest'
+      produces:
+      - application/json
+      responses:
+        "201":
+          description: Created
+          schema:
+            allOf:
+            - $ref: '#/definitions/response.Base'
+            - properties:
+                data:
+                  $ref: '#/definitions/dto.CreateUserRequest'
+              type: object
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/response.Base'
+        "409":
+          description: Conflict
+          schema:
+            $ref: '#/definitions/response.Base'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/response.Base'
+      summary: Create a new User.
+      tags:
+      - users
+swagger: "2.0"
